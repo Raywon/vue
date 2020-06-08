@@ -4,10 +4,10 @@
       <v-toolbar flat>
 
         <v-row justify="center" width="100%">
-          <v-toolbar-title >사랑스러운 강아지</v-toolbar-title>
+          <v-toolbar-title>사랑스러운 강아지</v-toolbar-title>
         </v-row>
 
- 
+
 
 
         <v-btn icon>
@@ -18,7 +18,7 @@
           <v-icon>mdi-account</v-icon>
         </v-btn>
 
-        
+
         <v-btn icon @click="dialog = !dialog">
           <v-icon>mdi-email</v-icon>
         </v-btn>
@@ -69,23 +69,23 @@
         <template v-slot:extension>
           <v-tabs v-model="tabs" fixed-tabs>
             <v-tabs-slider></v-tabs-slider>
-            <v-tab href="#mobile-tabs-5-1" class="primary--text">
+            <v-tab href="#mobile-tabs-5-1" class="primary--text" >
               <v-icon>mdi-phone</v-icon>
             </v-tab>
 
-            <v-tab href="#mobile-tabs-5-2" class="primary--text">
+            <v-tab href="#mobile-tabs-5-2" class="primary--text" >
               <v-icon>mdi-heart</v-icon>
             </v-tab>
 
-            <v-tab href="#mobile-tabs-5-3" class="primary--text">
+            <v-tab href="#mobile-tabs-5-3" class="primary--text" >
               <v-icon>mdi-account-box</v-icon>
             </v-tab>
 
-            <v-tab href="#mobile-tabs-5-3" class="primary--text">
-              <v-icon>mdi-account-box</v-icon>
+            <v-tab href="#mobile-tabs-5-4" class="primary--text" >
+              <v-icon>mdi-email</v-icon>
             </v-tab>
 
-            
+
           </v-tabs>
         </template>
       </v-toolbar>
@@ -93,7 +93,7 @@
       <v-tabs-items v-model="tabs">
         <v-tab-item v-for="i in 5" :key="i" :value="'mobile-tabs-5-' + i">
           <v-card flat>
-            <v-card-text v-text="text"></v-card-text>
+            <v-card-text v-text="items"></v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -102,15 +102,14 @@
     <!-- v-email button  -->
 
     <v-menu transition="fab-transition">
-      <template v-slot:activator="{ on }">    
-        <v-btn bottom color="blue darken-2" dark fab fixed right 
-        v-on=" on ">
+      <template v-slot:activator="{ on }">
+        <v-btn bottom color="blue darken-2" dark fab fixed right v-on=" on ">
           <v-icon>mdi-share-variant</v-icon>
         </v-btn>
       </template>
       <v-list>
-        <v-btn color = "primary" fab> index1</v-btn>  
-        <v-btn color = "strong" fab>index2</v-btn>
+        <v-btn color="primary" fab> index1</v-btn>
+        <v-btn color="strong" fab>index2</v-btn>
       </v-list>
     </v-menu>
 
@@ -124,47 +123,16 @@
     },
     data: () => ({
       tabs: null,
-      text: '영범이   고추 3cm.',
-
+      page: [1, 2, 3, 4],
+      text:"ssibal",
       dialog: false,
       drawer: null,
       items: [
-        { icon: 'mdi-contacts', text: '홈페이지 소개' },
-        { icon: 'mdi-history', text: '개발자 소개' },
-        { icon: 'mdi-content-copy', text: '애완견 키우기' },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: '소형견',
-          model: false,
-          children: [
-            { icon: 'mdi-plus', text: '말티즈' },
-            { icon: 'mdi-plus', text: '시츄' },
-            { icon: 'mdi-plus', text: '불독' }
-          ],
-        },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: '중형견',
-          model: false,
-          children: [
-            { icon: 'mdi-plus', text: '말티즈' },
-            { icon: 'mdi-plus', text: '시츄' },
-            { icon: 'mdi-plus', text: '불독' }
-          ],
-        },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: '대형견',
-          model: false,
-          children: [
-            { icon: 'mdi-plus', text: '말티즈' },
-            { icon: 'mdi-plus', text: '시츄' },
-            { icon: 'mdi-plus', text: '불독' }
-          ],
-        },
+      {text: '영범이 고추 3cm', age : '14살'},
+      {text: '장현이 고추 3cm'},
+      {text: '용진이 고추 3cm'},
+      {text: 'ㄱㅎ'}
+
       ],
     }),
   }

@@ -124,7 +124,7 @@
     },
     data: () => ({
       tabs: null,
-      text: '영범이  고추 3cm.',
+      text: '영범이   고추 3cm.',
 
       dialog: false,
       drawer: null,

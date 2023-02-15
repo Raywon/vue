@@ -1,0 +1,159 @@
+    <div id="app">
+        <v-app >
+            <v-main>
+                <v-container>
+                    <v-row no-gutters>
+                        <v-col class="mb-2" cols="12" md="12" sm="12">
+                            <v-card class="pa-3" color="primary">
+                                <v-card-text style="color:white;">
+                                    <div>Vue.js를 이용한 Test Page</div>
+                                    <div>기존 WIKI Engine은 Front-End가 Handlebar로 설정되어있음.</div>
+                                    <div>이를 Vue.js나 React.js 프레임워크로 변경예정</div>
+                                    <div>업체를통해 변경을 요청하도록 하겠습니다.</div>
+                                    <div>만약, Vue.js를 이용시 Vuetify를통한 머터리얼디자인을 해주시면 편함</div>
+                                    <div>React.js를 이용시 약간의 학습비용이들겠지만, 나쁘진않음</div>
+                                    <div> test test1 test2 {{message1}}</div>
+                                </v-card-text>
+                            </v-card>
+
+                        </v-col>
+                        <v-col>
+                            <v-card class="pa-3">
+                                <v-row no-gutters>
+
+                                    <!-- <v-col cols="6" md="6" sm="6">
+                                        <v-text-field label="Regular" v-model="message1"></v-text-field>
+                                    </v-col> -->
+                                    <v-col>
+                                        <v-card color="primany" min-width="400px">
+                                            <v-form action="{{app_context}}/search" id="search_form" method="post">
+                                                {{#if config.settings.show_featured_articles}}
+                                                <div>
+                                                    {{else}}
+                                                    <div>
+                                                        {{/if}}
+                                                        <div>
+                                                            <v-text-field label="Pages" name="frm_search"
+                                                                id="frm_search" autocomplete="off" v-model="message1">
+                                                            </v-text-field>
+                                                            <!-- <span class="input-group-btn">
+                                                            <button class="btn btn-success btn-lg" id="btn_search"  type="submit" >{{__ "Search"}}</button>
+                                                        </span> -->
+                                                        </div>
+                                                        {{#ifCond config.settings.typeahead_search '===' true}}
+                                                        <div id="searchResult" class="hidden col-lg-12">
+                                                            <ul class="list-group searchResultList"></ul>
+                                                        </div>
+                                                        {{/ifCond}}
+                                                    </div>
+                                            </v-form>
+                                          
+                                            
+                                        </v-card>
+                                    </v-col>
+                                    <!-- <v-col cols="12" md="12" sm="12">
+                            <p>마우스로 드래그해서 선택한 mouse</p>
+                            <v-input> </v-input>
+                            <div id="console"></div>
+                            </v-col> -->
+                            </v-card>
+                    </v-row>
+                    </v-col>
+                    </v-row>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script  type="text/javascript">
+         new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data(){
+                return {
+                    message1: 'test',
+                    search_data: null,
+                    page_data : 1212121
+                }
+            },
+            watch: {
+                message1: function (value, oldValue) {
+                    //console.log(this.message1);
+                    // document.getElementsByTagName('frm_search')[0].submit()
+                }
+            },
+            mounted() {
+                //mouse up시 선택 표출
+                this.dragstart()
+            },
+            methods: {
+                dragstart() {
+                    document.onmouseup = () => {
+                        document.getElementById("frm_search").innerHTML = this.selectText();
+                    }
+                },
+                //드래그시 선택한 글자 가져오는 function
+                selectText() {
+                    let selectionText = "";
+                    this.page_data = null
+                    if (document.getSelection) {
+                        selectionText = document.getSelection();
+
+                        let sel = window.getSelection();
+                        let range = sel.getRangeAt(0);
+                        let start = range.startOffset; //드래그 시작 offset
+                        let end = range.endOffset; //드래스 끝 offset
+                        let line = sel.toString() //줄바뀜 포함 표출
+                        let enter_checker = line.split('\n').length - 1 // \n의개수 파악
+                        let space_checker = line.split(' ').length - 1 // \n의개수 파악
+
+                        if (enter_checker == 0 && space_checker < 3) { //br태그가 없고 띄어쓰기 일정개수 이하일경우 해당 데이터 표출
+                            this.message1 = line
+                            //퍼머링크 데이터 array로 불러오기
+                                axios.post('/search_api', {
+                                    searchTerm: this.message1
+                                })
+                                .then(function (response) {
+                                    this.search_data =  response.data
+                                    let search_len = this.search_data.length
+                                    //검색된
+                                    if(search_len != 0){
+                                        this.page_data = search_len
+                                        console.log(this.page_data)}
+                          
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                            return selectionText;
+                        } else { // 그렇지 않을경우 ""값 출력
+                            let selectionText = "";
+                            this.message1 = selectionText
+                            return selectionText
+                        }
+
+                    } else if (document.selection) {
+                        selectionText = document.selection.createRange().text;
+                        this.message1 = selectionText
+                        return selectionText;
+                    }
+                    //var line2 = range.toString() //줄바뀜없이 한줄로 표출
+                    //console.log(line.split('\n').length -1)
+                    //console.log(line2.split(' ').length -1)
+
+
+                }
+            }
+        })
+    </script>
+        <style type="text/css">
+        #console {
+            width: 300px;
+            height: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+

@@ -1,0 +1,26 @@
+
+        <p>abcdefghijklmnopqrstuvwxyz</p>
+        <p>마우스로 드래그해서 선택한 글 나오기</p>
+        <div id="console"></div>
+
+
+        <style type="text/css">
+            #console { width: 300px; height: 20px; border: 1px solid #ccc; }
+        </style>
+
+
+        <script type="text/javascript">
+            function selectText() {
+                var selectionText = "";
+                if (document.getSelection) {
+                    selectionText = document.getSelection();
+                } else if (document.selection) {
+                    selectionText = document.selection.createRange().text;
+                }
+                return selectionText;
+            }
+           
+            document.onmouseup = function() {
+                document.getElementById("console").innerHTML = selectText();
+            }
+        </script>
